@@ -13,26 +13,26 @@ default_args = {
     # 'retries': 1,
     # 'retry_delay': timedelta(minutes=5)
 }
-dag = DAG(
+with DAG(
     'kubernetes_pod_operator',
     default_args=default_args,
     start_date=datetime(2023,8,31),
     schedule_interval=None
     # schedule_interval=timedelta(minutes=10)
-)
+) as dag:
 
-start = DummyOperator(task_id='run_this_first', dag=dag)
+    start = DummyOperator(task_id='run_this_first', dag=dag)
 
-passing = KubernetesPodOperator(
-    # namespace='airflow',
-    image="python:3.8",
-    cmds=["python","-c"],
-    arguments=["print('hello world')"],
-    labels={"app": "airflow"},
-    name="passing-test",
-    task_id="passing-task",
-    get_logs=True,
-    dag=dag
-)
+    passing = KubernetesPodOperator(
+        # namespace='airflow',
+        image="python:3.8",
+        cmds=["python","-c"],
+        arguments=["print('hello world')"],
+        labels={"app": "airflow"},
+        name="passing-test",
+        task_id="passing-task",
+        get_logs=True,
+        dag=dag
+    )
 
-passing.set_upstream(start)
+start >> passing
