@@ -12,7 +12,7 @@ default_args = {
 }
 dag = DAG(
     'hello_world_dag_PythonOperator',
-    start_date=datetime(2023,8,31),
+    start_date=datetime(2023,9,1),
     schedule_interval="@hourly",
     catchup=False
 )
