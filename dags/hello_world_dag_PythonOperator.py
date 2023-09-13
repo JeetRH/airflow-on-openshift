@@ -18,7 +18,7 @@ with DAG(
     catchup=False
 ) as dag:
 
-    start = DummyOperator(task_id='run_this_first', dag=dag)
+    start = DummyOperator(task_id='run_this_first')
 
     python_task = PythonOperator(
             task_id="hello_world",
