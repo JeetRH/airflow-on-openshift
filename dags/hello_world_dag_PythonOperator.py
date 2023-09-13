@@ -10,18 +10,18 @@ def helloWorld():
 default_args = {
     'owner': 'airflow_python'
 }
-dag = DAG(
+
+with DAG(
     'hello_world_dag_PythonOperator',
     start_date=datetime(2023,9,1),
     schedule_interval="@hourly",
     catchup=False
-)
+) as dag:
 
-start = DummyOperator(task_id='run_this_first', dag=dag)
+    start = DummyOperator(task_id='run_this_first', dag=dag)
 
-python_task = PythonOperator(
-        task_id="hello_world",
-        python_callable=helloWorld)
+    python_task = PythonOperator(
+            task_id="hello_world",
+            python_callable=helloWorld)
 
-#passing.set_upstream(start)
 start >> python_task
