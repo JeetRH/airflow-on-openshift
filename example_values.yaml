@@ -32,7 +32,7 @@ dags:
     uid: null
     enabled: true
     repo: https://github.com/JeetRH/airflow-on-openshift.git
-    branch: main
+    branch: my-edits
     subPath: dags
 
 logs:
