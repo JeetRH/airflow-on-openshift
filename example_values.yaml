@@ -38,6 +38,7 @@ dags:
 logs:
   persistence:
     enabled: true
+    existingClaim: airflow-pvc
 
 flower:
   enabled: false
