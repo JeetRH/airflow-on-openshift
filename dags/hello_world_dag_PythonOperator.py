@@ -8,7 +8,7 @@ def helloWorld():
     print("Hello World")
 
 default_args = {
-    'owner': 'airflow_python'
+    'owner': 'jeet'
 }
 
 with DAG(
