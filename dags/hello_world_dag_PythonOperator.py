@@ -13,6 +13,7 @@ default_args = {
 
 with DAG(
     'hello_world_dag_PythonOperator',
+    default_args=default_args,
     start_date=datetime(2023,9,1),
     schedule_interval="@hourly",
     catchup=False
