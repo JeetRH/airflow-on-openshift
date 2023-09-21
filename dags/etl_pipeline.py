@@ -12,7 +12,7 @@ default_args = {
 
 
 def read_csv_file():
-    df = pd.read_csv('./datasets/insurance.csv')
+    df = pd.read_csv('/Users/satyajit/Desktop/Clients/Airflow_Exxon/my_airflow/airflow-on-openshift/datasets/insurance.csv')
 
     print(df)
 
