@@ -38,7 +38,7 @@ def read_csv_file():
 def remove_null_values(ti):
     json_data = ti.xcom_pull(task_ids='read_csv_file')
     
-    df = pd.read_json(json_data)
+    df = pd.read_json(json_data, lines=True)
     
     df = df.dropna()
 
