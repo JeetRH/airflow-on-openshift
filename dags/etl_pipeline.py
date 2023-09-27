@@ -82,7 +82,7 @@ with DAG(
     default_args = default_args,
     start_date = days_ago(1),
     schedule_interval = '@once',
-    tags = ['python', 'transform', 'pipeline']
+    tags = ['python', 'transform', 'pipeline','xcom']
 ) as dag:
     
     read_csv_file = PythonOperator(
