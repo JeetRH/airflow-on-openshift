@@ -20,9 +20,19 @@ def read_csv_file():
         bucket_name='airflow'
     )
 
-    print(type(df))
+    df2 = s3_hook.select_key(
+        key,
+        bucket_name='airflow',
+        InputSerialization = {'CSV': {'FileHeaderInfo': 'USE'}},
+        OutputSerialization = {'JSON': {}}
+    )
 
-    return df.to_json()
+    print(df[0:50])
+
+    print(type(df2))
+
+    # return df.to_json()
+    return df2
 
 
 def remove_null_values(ti):
