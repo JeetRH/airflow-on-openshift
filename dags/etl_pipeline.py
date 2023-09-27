@@ -4,6 +4,7 @@ from airflow.utils.dates import days_ago
 
 from airflow import DAG
 from airflow.operators.python_operator import PythonOperator
+from airflow.providers.amazon.aws.hooks.s3 import S3Hook
 
 
 default_args = {
@@ -12,9 +13,14 @@ default_args = {
 
 
 def read_csv_file():
-    df = pd.read_csv('/Users/satyajit/Desktop/Clients/Airflow_Exxon/my_airflow/airflow-on-openshift/datasets/insurance.csv')
+    key = 'airflow'
+    s3_hook = S3Hook(aws_conn_id='minio')
+    df = s3_hook.read_key(
+        key,
+        bucket_name='airflow'
+    )
 
-    print(df)
+    print(type(df))
 
     return df.to_json()
 
