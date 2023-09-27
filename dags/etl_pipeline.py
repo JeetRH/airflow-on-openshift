@@ -15,7 +15,7 @@ default_args = {
 def read_csv_file():
     key = 'insurance.csv'
     s3_hook = S3Hook(aws_conn_id='minio')
-    df = s3_hook.get_key(
+    df = s3_hook.read_key(
         key,
         bucket_name='airflow'
     )
