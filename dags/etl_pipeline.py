@@ -23,8 +23,8 @@ def read_csv_file():
     df2 = s3_hook.select_key(
         key,
         bucket_name='airflow',
-        InputSerialization = {'CSV': {'FileHeaderInfo': 'USE'}},
-        OutputSerialization = {'JSON': {}}
+        input_serialization = {'CSV': {'FileHeaderInfo': 'USE'}},
+        output_serialization = {'JSON': {}}
     )
 
     print(df[0:50])
