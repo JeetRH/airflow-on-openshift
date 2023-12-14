@@ -1,4 +1,5 @@
 import pandas as pd
+import numpy as np
 
 from airflow.utils.dates import days_ago
 
@@ -61,13 +62,22 @@ def groupby_smoker(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    print(df.head(50))
+    # print(df.head(50))
 
-    # smoker_df = df.groupby('smoker').agg({
-    #     'age': 'mean', 
-    #     'bmi': 'mean',
-    #     'charges': 'mean'
-    # }).reset_index()
+    # Lets clean out our dataframe more
+    # Replace "null" with NaN
+    df.replace('null', np.nan, inplace=True)
+
+    # Remove rows with NaN values
+    df_cleaned = df.dropna()
+
+    smoker_df = df_cleaned.groupby('smoker').agg({
+        'age': 'mean', 
+        'bmi': 'mean',
+        'charges': 'mean'
+    }).reset_index()
+
+    print(smoker_df.head(50))
 
     # smoker_df.to_csv(
     #     './output/grouped_by_smoker.csv', index=False)
@@ -77,7 +87,7 @@ def groupby_region(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    print(df.head(50))
+    # print(df.head(50))
 
     # region_df = df.groupby('region').agg({
     #     'age': 'mean', 
