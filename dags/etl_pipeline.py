@@ -62,8 +62,6 @@ def groupby_smoker(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    # print(df.head(50))
-
     # Lets clean out our dataframe more
     # Replace "null" with NaN
     df.replace('null', np.nan, inplace=True)
@@ -72,11 +70,10 @@ def groupby_smoker(ti):
     df_cleaned = df.dropna()
 
     smoker_df = df_cleaned.groupby('smoker').agg({
-        'age': ['min', 'max'] 
-        # 'bmi': 'mean',
-        # 'charges': 'mean'
+        'age': ['min', 'max', 'mean'], 
+        'bmi': ['min', 'max', 'mean'],
+        'children': ['min', 'max', 'mean']
     })
-    # .reset_index()
 
     print(smoker_df.head(50))
 
@@ -88,14 +85,20 @@ def groupby_region(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    # print(df.head(50))
+    # Lets clean out our dataframe more
+    # Replace "null" with NaN
+    df.replace('null', np.nan, inplace=True)
 
-    # region_df = df.groupby('region').agg({
-    #     'age': 'mean', 
-    #     'bmi': 'mean', 
-    #     'charges': 'mean'
-    # }).reset_index()
+    # Remove rows with NaN values
+    df_cleaned = df.dropna()
+
+    region_df = df_cleaned.groupby('region').agg({
+        'age': ['min', 'max', 'mean'], 
+        'bmi': ['min', 'max', 'mean'], 
+        'children': ['min', 'max', 'mean']
+    })
     
+    print(region_df.head(50))
 
     # region_df.to_csv(
     #     './output/grouped_by_region.csv', index=False)
