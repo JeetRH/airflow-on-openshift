@@ -72,10 +72,11 @@ def groupby_smoker(ti):
     df_cleaned = df.dropna()
 
     smoker_df = df_cleaned.groupby('smoker').agg({
-        'age': 'mean', 
+        'age': ['min', 'max'] 
         # 'bmi': 'mean',
         # 'charges': 'mean'
-    }).reset_index()
+    })
+    # .reset_index()
 
     print(smoker_df.head(50))
 
