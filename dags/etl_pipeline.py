@@ -52,14 +52,14 @@ def remove_null_values(ti):
 
     cleaned_data = remove_nulls(json_data)
 
-    print(cleaned_data)
+    # print(cleaned_data)
 
     return cleaned_data
 
 
 def groupby_smoker(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
-    df = pd.read_json(json_data)
+    df = pd.read_json(json_data, lines=True)
 
     print(df.head(50))
 
@@ -75,7 +75,7 @@ def groupby_smoker(ti):
 
 def groupby_region(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
-    df = pd.read_json(json_data)
+    df = pd.read_json(json_data, lines=True)
 
     print(df.head(50))
 
