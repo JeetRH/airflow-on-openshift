@@ -23,10 +23,10 @@ def remove_nulls(obj):
 def read_csv_file():
     key = 'insurance.csv'
     s3_hook = S3Hook(aws_conn_id='minio')
-    df = s3_hook.read_key(
-        key,
-        bucket_name='airflow'
-    )
+    # df = s3_hook.read_key(
+    #     key,
+    #     bucket_name='airflow'
+    # )
 
     df2 = s3_hook.select_key(
         key,
@@ -35,7 +35,7 @@ def read_csv_file():
         output_serialization = {'JSON': {}}
     )
 
-    print(df[0:50])
+    # print(df[0:50])
 
     print(type(df2))
 
@@ -61,29 +61,33 @@ def groupby_smoker(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data)
 
-    smoker_df = df.groupby('smoker').agg({
-        'age': 'mean', 
-        'bmi': 'mean',
-        'charges': 'mean'
-    }).reset_index()
+    print(df.head(50))
 
-    smoker_df.to_csv(
-        './output/grouped_by_smoker.csv', index=False)
+    # smoker_df = df.groupby('smoker').agg({
+    #     'age': 'mean', 
+    #     'bmi': 'mean',
+    #     'charges': 'mean'
+    # }).reset_index()
+
+    # smoker_df.to_csv(
+    #     './output/grouped_by_smoker.csv', index=False)
 
 
 def groupby_region(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data)
 
-    region_df = df.groupby('region').agg({
-        'age': 'mean', 
-        'bmi': 'mean', 
-        'charges': 'mean'
-    }).reset_index()
+    print(df.head(50))
+
+    # region_df = df.groupby('region').agg({
+    #     'age': 'mean', 
+    #     'bmi': 'mean', 
+    #     'charges': 'mean'
+    # }).reset_index()
     
 
-    region_df.to_csv(
-        './output/grouped_by_region.csv', index=False)
+    # region_df.to_csv(
+    #     './output/grouped_by_region.csv', index=False)
 
 
 with DAG(
