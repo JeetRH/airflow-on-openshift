@@ -11,6 +11,14 @@ default_args = {
    'owner': 'jeet'
 }
 
+def remove_nulls(obj):
+    if isinstance(obj, (list, tuple)):
+        return [remove_nulls(item) for item in obj if item is not None]
+    elif isinstance(obj, dict):
+        return {key: remove_nulls(value) for key, value in obj.items() if value is not None}
+    else:
+        return obj
+
 
 def read_csv_file():
     key = 'insurance.csv'
@@ -38,13 +46,15 @@ def read_csv_file():
 def remove_null_values(ti):
     json_data = ti.xcom_pull(task_ids='read_csv_file')
     
-    df = pd.read_json(json_data, lines=True)
+    # df = pd.read_json(json_data, lines=True)
     
-    df = df.dropna()
+    # df = df.dropna()
 
-    print(df)
+    cleaned_data = remove_nulls(json_data)
 
-    return df.to_json()
+    print(cleaned_data)
+
+    return cleaned_data
 
 
 def groupby_smoker(ti):
