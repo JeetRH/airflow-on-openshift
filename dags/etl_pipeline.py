@@ -70,9 +70,9 @@ def groupby_smoker(ti):
     df_cleaned = df.dropna()
 
     smoker_df = df_cleaned.groupby('smoker').agg({
-        'age': ['min', 'max', 'mean'], 
-        'bmi': ['min', 'max', 'mean'],
-        'children': ['min', 'max', 'mean']
+        'age': ['min', 'max'], 
+        'bmi': ['min', 'max'],
+        'children': ['min', 'max']
     })
 
     print(smoker_df.head(50))
@@ -93,9 +93,9 @@ def groupby_region(ti):
     df_cleaned = df.dropna()
 
     region_df = df_cleaned.groupby('region').agg({
-        'age': ['min', 'max', 'mean'], 
-        'bmi': ['min', 'max', 'mean'], 
-        'children': ['min', 'max', 'mean']
+        'age': ['min', 'max'], 
+        'bmi': ['min', 'max'], 
+        'children': ['min', 'max']
     })
     
     print(region_df.head(50))
