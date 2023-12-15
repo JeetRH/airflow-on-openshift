@@ -46,14 +46,8 @@ def read_csv_file():
 
 def remove_null_values(ti):
     json_data = ti.xcom_pull(task_ids='read_csv_file')
-    
-    # df = pd.read_json(json_data, lines=True)
-    
-    # df = df.dropna()
 
     cleaned_data = remove_nulls(json_data)
-
-    # print(cleaned_data)
 
     return cleaned_data
 
@@ -76,7 +70,9 @@ def groupby_smoker(ti):
     })
 
     print(smoker_df.head(50))
-
+    
+    s3_hook = S3Hook(aws_conn_id='minio')
+    s3_hook.load_file(smoker_df.to_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # smoker_df.to_csv(
     #     './output/grouped_by_smoker.csv', index=False)
 
@@ -100,6 +96,8 @@ def groupby_region(ti):
     
     print(region_df.head(50))
 
+    s3_hook = S3Hook(aws_conn_id='minio')
+    s3_hook.load_file(region_df.to_csv, 'region_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # region_df.to_csv(
     #     './output/grouped_by_region.csv', index=False)
 
