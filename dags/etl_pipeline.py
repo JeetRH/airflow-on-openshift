@@ -24,14 +24,14 @@ def remove_nulls(obj):
 def read_csv_file():
     key = 'insurance.csv'
     s3_hook = S3Hook(aws_conn_id='minio')
-    df2 = s3_hook.select_key(
+    ins_data = s3_hook.select_key(
         key,
         bucket_name='airflow',
         input_serialization = {'CSV': {'FileHeaderInfo': 'USE'}},
         output_serialization = {'JSON': {}}
     )
 
-    return df2
+    return ins_data
 
 
 def remove_null_values(ti):
