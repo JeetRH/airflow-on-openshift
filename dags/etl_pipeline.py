@@ -24,11 +24,6 @@ def remove_nulls(obj):
 def read_csv_file():
     key = 'insurance.csv'
     s3_hook = S3Hook(aws_conn_id='minio')
-    # df = s3_hook.read_key(
-    #     key,
-    #     bucket_name='airflow'
-    # )
-
     df2 = s3_hook.select_key(
         key,
         bucket_name='airflow',
@@ -36,11 +31,6 @@ def read_csv_file():
         output_serialization = {'JSON': {}}
     )
 
-    # print(df[0:50])
-
-    print(type(df2))
-
-    # return df.to_json()
     return df2
 
 
@@ -56,11 +46,8 @@ def groupby_smoker(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    # Lets clean out our dataframe more
-    # Replace "null" with NaN
+    # Lets clean out our dataframe more and remove the "null" values
     df.replace('null', np.nan, inplace=True)
-
-    # Remove rows with NaN values
     df_cleaned = df.dropna()
 
     smoker_df = df_cleaned.groupby('smoker').agg({
@@ -79,11 +66,8 @@ def groupby_region(ti):
     json_data = ti.xcom_pull(task_ids='remove_null_values')
     df = pd.read_json(json_data, lines=True)
 
-    # Lets clean out our dataframe more
-    # Replace "null" with NaN
+    # Lets clean out our dataframe more and remove the "null" values
     df.replace('null', np.nan, inplace=True)
-
-    # Remove rows with NaN values
     df_cleaned = df.dropna()
 
     region_df = df_cleaned.groupby('region').agg({
