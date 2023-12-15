@@ -69,7 +69,7 @@ def groupby_smoker(ti):
         'children': ['min', 'max']
     })
 
-    smoker_df_csv = region_df.to_csv(index=False)
+    smoker_df_csv = smoker_df.to_csv(index=False)
     
     s3_hook = S3Hook(aws_conn_id='minio')
     s3_hook.load_string(smoker_df_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
