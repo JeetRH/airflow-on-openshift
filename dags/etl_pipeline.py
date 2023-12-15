@@ -72,7 +72,7 @@ def groupby_smoker(ti):
     print(smoker_df.head(50))
     
     s3_hook = S3Hook(aws_conn_id='minio')
-    s3_hook.load_file(smoker_df.to_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
+    s3_hook.load_file_obj(smoker_df.to_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # smoker_df.to_csv(
     #     './output/grouped_by_smoker.csv', index=False)
 
@@ -97,7 +97,7 @@ def groupby_region(ti):
     print(region_df.head(50))
 
     s3_hook = S3Hook(aws_conn_id='minio')
-    s3_hook.load_file(region_df.to_csv, 'region_df.csv', bucket_name='airflow', replace=True, encrypt=False)
+    s3_hook.load_file_obj(region_df.to_csv, 'region_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # region_df.to_csv(
     #     './output/grouped_by_region.csv', index=False)
 
