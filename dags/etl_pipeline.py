@@ -69,9 +69,10 @@ def groupby_smoker(ti):
         'children': ['min', 'max']
     })
 
-    print(smoker_df.head(50))
+    smoker_df_csv = region_df.to_csv(index=False)
     
-    # s3_hook = S3Hook(aws_conn_id='minio')
+    s3_hook = S3Hook(aws_conn_id='minio')
+    s3_hook.load_string(smoker_df_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # s3_hook.load_file_obj(smoker_df.to_csv, 'smoker_df.csv', bucket_name='airflow', replace=True, encrypt=False)
     # smoker_df.to_csv(
     #     './output/grouped_by_smoker.csv', index=False)
@@ -93,15 +94,11 @@ def groupby_region(ti):
         'bmi': ['min', 'max'], 
         'children': ['min', 'max']
     })
-    
-    print(region_df.head(50))
 
     region_df_csv = region_df.to_csv(index=False)
 
     s3_hook = S3Hook(aws_conn_id='minio')
     s3_hook.load_string(region_df_csv, 'region_df.csv', bucket_name='airflow', replace=True, encrypt=False)
-    # region_df.to_csv(
-    #     './output/grouped_by_region.csv', index=False)
 
 
 with DAG(
